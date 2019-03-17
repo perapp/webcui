@@ -16,19 +16,27 @@ $ pip install webcui
 
 Here's an example of a simple Webcui app:
 ```
-@param("Name", help="Your name")
 @param("Number of spam", default=2, help="How much spam do you want?")
-@param("Side", default="ham")
-def cmd(name, n_spam, side):
+@param("Side", default="eggs")
+def cmd(n_spam: int, side: str):
+   """
+   Calculate the price of a breakfast order.
+   """
+   if n_spam < 1:
+      raise webcui.ParamValueError("Number of spam", "All our dishes has at least one spam.")
    spams = n_spam * ["spam"]
-   return f"No problem {name}, one order of {', '.join(spams)} and {side} coming up."
+   dish = f"{', '.join(spams)} and {side}
+   price = n_spam * 1.5 + 2
+   return f"The price of an order of {dish} is €{price}."
 
 if __name__ == '__main__':
    webcui.run(cmd)
 ```
 
 To run the Webcui app on your own computer run:
-`$ python app.py --run`
+```
+$ python app.py --run
+```
 
 To deploy to a cloud provider first configure your app using the admin tool and then run deploy.
 ```
