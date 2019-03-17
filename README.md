@@ -10,12 +10,16 @@ Webcui features:
 * Admin interface (a Webcui app of course :-p) to configure cloud provider and continous delivery pipeline.
 
 ## Installation
+```
 $ pip install webcui
+```
 
 ## Usage
 
 Here's an example of a simple Webcui app:
 ```
+from webcui import param, run, ParamValueError
+
 @param("Number of spam", default=2, help="How much spam do you want?")
 @param("Side", default="eggs")
 def cmd(n_spam: int, side: str):
@@ -23,14 +27,14 @@ def cmd(n_spam: int, side: str):
    Calculate the price of a breakfast order.
    """
    if n_spam < 1:
-      raise webcui.ParamValueError("Number of spam", "All our dishes has at least one spam.")
+      raise ParamValueError("Number of spam", "All our dishes has at least one spam.")
    spams = n_spam * ["spam"]
    dish = f"{', '.join(spams)} and {side}
    price = n_spam * 1.5 + 2
    return f"The price of an order of {dish} is €{price}."
 
 if __name__ == '__main__':
-   webcui.run(cmd)
+   run(cmd)
 ```
 
 To run the Webcui app on your own computer run:
