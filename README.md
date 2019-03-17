@@ -17,7 +17,7 @@ $ pip install webcui
 ## Usage
 
 Here's an example of a simple Webcui app:
-```
+```python
 from webcui import param, run, ParamValueError
 
 @param("Number of spam", default=2, help="How much spam do you want?")
