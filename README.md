@@ -29,7 +29,7 @@ def cmd(n_spam: int, side: str):
    if n_spam < 1:
       raise ParamValueError("Number of spam", "All our dishes has at least one spam.")
    spams = n_spam * ["spam"]
-   dish = f"{', '.join(spams)} and {side}
+   dish = f"{', '.join(spams)} and {side}"
    price = n_spam * 1.5 + 2
    return f"The price of an order of {dish} is €{price}."
 
