@@ -1,7 +1,6 @@
 # webcui
 
 A Python package for creating Webcui apps. A Webcui app is to the web what a Command Line Interface app is for the command line.
-
 The goal of Webcui is to make it as easy as possible for Python developers to share their Python app with the world.
 
 Webcui features:
