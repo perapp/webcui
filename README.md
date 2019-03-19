@@ -20,18 +20,12 @@ Here's an example of a simple Webcui app:
 ```python
 from webcui import param, run, ParamValueError
 
-@param("Number of spam", default=2, help="How much spam do you want?")
-@param("Side", default="eggs")
-def cmd(n_spam: int, side: str):
-   """
-   Calculate the price of a breakfast order.
-   """
-   if n_spam < 1:
-      raise ParamValueError("Number of spam", "All our dishes has at least one spam.")
-   spams = n_spam * ["spam"]
+def cmd(number_of_spam: int, side: str = "eggs"):
+   """Calculate the price of a breakfast order."""
+   spams = number_of_spam * ["spam"]
    dish = f"{', '.join(spams)} and {side}"
-   price = n_spam * 1.5 + 2
-   return f"The price of an order of {dish} is €{price}."
+   price = number_of_spam * 1.5 + 2
+   return f"The price of an order of {dish} is €{price:.2f}"
 
 if __name__ == '__main__':
    run(cmd)
@@ -54,4 +48,46 @@ A continuous delivery pipeline can easily be configured using the commands:
 $ python app.py --build
 $ python app.py --test
 $ python app.py --deploy
+```
+
+## More examples
+Add decorators for more control on parameter labels and help text.
+```python
+@param(label="Number of spam", help="How much spam do you want?")
+@param(label="Side")
+def cmd(number_of_spam: int, side: str = "eggs"):
+   """Calculate the price of a breakfast order."""
+   spams = number_of_spam * ["spam"]
+   dish = f"{', '.join(spams)} and {side}"
+   price = number_of_spam * 1.5 + 2
+   return f"The price of an order of {dish} is €{price:.2f}"
+```
+
+Raise webcui.ParamValueError for error text next to input field.
+```python
+def cmd(number_of_spam: int, side: str = "eggs"):
+   if n_spam < 1:
+      raise webcui.ParamValueError("number_of_spam", "Sorry, all our dishes include spam.")
+   return "I love spam"
+```
+
+Use Markdown or HTML as function docstring and return value to control formatting.
+```python
+def cmd(number_of_spam: int, side: str = "eggs"):
+   """
+   # Breakfast Price Calculator
+   Welcome to the breakfast calculator. This web app can calculate the price of
+   any breakfast... As long as it include spam.
+   
+   ## Menu
+     * Spam and eggs
+     * Spam, spam and bacon
+     * Spam and ham
+     * Spam, spam and spam.
+   """
+
+   return """
+   # Thank you!
+   Thank you for using my app. Keep loving spam!"
+   """
 ```
