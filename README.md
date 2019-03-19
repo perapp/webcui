@@ -43,14 +43,7 @@ $ python app.py --deploy
 ```
 The configuration will be saved in webcui.conf
 
-A continuous delivery pipeline can easily be configured using the commands:
-```
-$ python app.py --build
-$ python app.py --test
-$ python app.py --deploy
-```
-
-## More examples
+## More Webcui app examples
 Add decorators for more control on parameter labels and help text.
 ```python
 @param(label="Number of spam", help="How much spam do you want?")
@@ -90,4 +83,32 @@ def cmd(number_of_spam: int, side: str = "eggs"):
    # Thank you!
    Thank you for using my app. Keep loving spam!"
    """
+```
+
+## Automatic testing
+
+TODO...
+
+## Continous Delivery
+
+A nice workflow when developing web apps are to automatically deploy to
+production (fancy talk for "installing on the Internet") whenever a new source
+code version passes all automatic tests.
+This is called continuous delivery and can easily be configured using the
+command line arguments `--build`, `--test` and `--deploy`.
+Below is an example of a Gitlab configuration. If your project is hosted on
+Gitlab.com, place the configuration below in the file `.gitlab-ci.yml` to get
+Continuous Delivery.
+```
+build:
+  stage: build
+  script: python app.py --build
+
+test:
+  stage: test
+  script: python app.py --test
+
+deploy:
+  stage: deploy
+  script: python app.py --deploy
 ```
