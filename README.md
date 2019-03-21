@@ -5,9 +5,9 @@ The goal of Webcui is to make it as easy as possible for Python developers to sh
 
 Webcui features:
 * Generate HTML forms from regular Python functions. Function parameters become input fields. Function is executed when the user submit the form.
-* Use function decorators to add help text and better labels to fields. (Coming soon)
-* Build, test and deploy app with simple command line. (Coming soon)
-* Admin interface (a Webcui app of course :-p) to configure cloud provider and continous delivery pipeline. (Coming soon)
+[//]: # * Use function decorators to add help text and better labels to fields. (Coming soon)
+[//]: # * Build, test and deploy app with simple command line. (Coming soon)
+[//]: # * Admin interface (a Webcui app of course :-p) to configure cloud provider and continous delivery pipeline. (Coming soon)
 
 ## Installation
 Install Python 3.6 or later
