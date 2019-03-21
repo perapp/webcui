@@ -3,14 +3,14 @@
 A Python package for creating Webcui apps. A Webcui app is to the web what a Command Line Interface app is for the command line.
 The goal of Webcui is to make it as easy as possible for Python developers to share their Python app with the world.
 
-Webcui features:
-* Generate HTML forms from regular Python functions. Function parameters become input fields. Function is executed when the user submit the form.
-[//]: # * Use function decorators to add help text and better labels to fields. (Coming soon)
-[//]: # * Build, test and deploy app with simple command line. (Coming soon)
-[//]: # * Admin interface (a Webcui app of course :-p) to configure cloud provider and continous delivery pipeline. (Coming soon)
+Webcui idea:
+* A web page with a HTML form is generated from a basic Python function.
+* Function parameters become input fields.
+* The function is executed when the user submit the form.
+* The result is displayed on the web page.
 
 ## Installation
-Install Python 3.6 or later
+Install Python 3.6 or later and then webcui using pip.
 ```
 $ pip install webcui
 ```
