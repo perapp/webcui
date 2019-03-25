@@ -12,7 +12,9 @@ def pyenv_path():
     return home_path()/"build"/"pyenv"
 
 def run_python(*args, quiet=False):
-    kwargs = {}
+    env = dict(os.environ)
+    env["PATH"] = str(pyenv_path().resolve()/"bin") + ":" + os.environ["PATH"]
+    kwargs = {"env": env}
     if quiet:
         kwargs["stdout"] = subprocess.DEVNULL
         kwargs["stderr"] = subprocess.DEVNULL
