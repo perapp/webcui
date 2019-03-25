@@ -14,6 +14,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://gitlab.com/perapp/webcui",
     packages=["webcui"],
+    package_dir={"": "python"},
     classifiers=[
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.6",
