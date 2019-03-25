@@ -1,28 +1,41 @@
 VENV_PY  = python3
-PYTHON   = build/pyvenv/bin/python
-PIP      = $(PYTHON) -m pip
+PYTHON   = build/buildenv/bin/python
+TPYTHON  = build/testenv/bin/python
 
 .PHONY:
 	build
-	pyvenv
 	test
 	test_twine_env
 
-build: pyvenv
+build: build/buildenv
 	$(PYTHON) python/setup.py sdist --dist-dir build/dist
 	$(PYTHON) python/setup.py bdist_wheel --dist-dir build/dist
-pyvenv: build/pyvenv
-build/pyvenv:
-	$(VENV_PY) -m venv build/pyvenv
-	$(PIP) install --upgrade setuptools wheel twine
-	$(PIP) install -r python/requirements.txt
 
-test: test_twine_env
+test: build/testenv
+	PYTHONPATH=python $</bin/python -m pytest test
+
+test_deploy: test_twine_env
 	$(PYTHON) -m twine upload -u ${PYPI_USER} -p ${PYPI_PASSWORD} --repository-url https://test.pypi.org/legacy/ build/dist/*
-	echo $(PYTHON) -m pip install --index-url https://test.pypi.org/simple/ webcui
+	$(VENV_PY) -m venv build/testenv
+	$(TPYTHON) -m pip install --index-url https://test.pypi.org/simple/ webcui
+	$(TPYTHON) -m pytest test
 
 deploy:
 	$(PYTHON) -m twine upload -u "$PYPI_USER" -p "$PYPI_PASSWORD" build/dist/*
+
+build/buildenv:
+	$(VENV_PY) -m venv $@
+	$@/bin/python -m pip install --upgrade setuptools wheel twine
+build/testenv:
+	$(VENV_PY) -m venv $@
+	$@/bin/python -m pip install pytest -r python/requirements.txt
+build/testpypienv:
+	$(VENV_PY) -m venv $@
+	$@/bin/python -m pip install pytest
+	$@/bin/python -m pip install --index-url https://test.pypi.org/simple/ webcui
+build/pypienv:
+	$(VENV_PY) -m venv $@
+	$@/bin/python -m pip install pytest webcui
 
 clean:
 	rm -rf build
