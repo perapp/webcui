@@ -26,7 +26,7 @@ deploy:
 
 clean:
 	rm -rf build
-	rm -rf python/webcui.egg-info
+	rm -rf python/*.egg-info
 
 test_twine_env:
 ifeq (${PYPI_USER},)
