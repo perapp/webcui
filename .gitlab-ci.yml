@@ -3,4 +3,7 @@ image: python:latest
 build:
    stage: build
    script: make build
-   
+
+test:
+   stage: test
+   script: make test
