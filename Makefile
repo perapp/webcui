@@ -14,6 +14,9 @@ build: build/buildenv
 test: build/testenv
 	PYTHONPATH=python $</bin/python -m pytest test
 
+run: build/testenv
+	PYTHONPATH=python $</bin/python test/app/test_basic_app.py
+
 test_deploy: test_twine_env
 	$(PYTHON) -m twine upload -u ${PYPI_USER} -p ${PYPI_PASSWORD} --repository-url https://test.pypi.org/legacy/ build/dist/*
 	$(VENV_PY) -m venv build/testenv
