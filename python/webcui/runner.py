@@ -9,4 +9,5 @@ def main(req, resp):
 
 def run(cmd):
     cmds.append(cmd)
-    api.run()
+    api.run(address="0.0.0.0"
+            port=80)
