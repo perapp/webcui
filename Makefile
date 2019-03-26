@@ -27,7 +27,7 @@ deploy:
 	$(PYTHON) -m twine upload -u "$PYPI_USER" -p "$PYPI_PASSWORD" build/dist/*
 
 build/buildenv:
-	$(VENV_PY) -m venv $@
+	$(VENV_PY) -m venv --copies $@
 	$@/bin/python -m pip install --upgrade setuptools wheel twine
 build/testenv:
 	$(VENV_PY) -m venv $@
