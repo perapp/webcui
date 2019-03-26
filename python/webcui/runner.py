@@ -5,7 +5,7 @@ cmds = []
 
 @api.route("/")
 def main(req, resp):
-    resp.text = "Hello!"
+    resp.html = api.template("form.html")
 
 def run(cmd):
     cmds.append(cmd)
