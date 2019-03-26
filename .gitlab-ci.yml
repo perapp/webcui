@@ -1,0 +1,9 @@
+before_script:
+   - apt-get -qy update
+   - apt-get -y install python3
+
+
+build:
+   stage: build
+   script: make build
+   
