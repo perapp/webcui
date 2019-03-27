@@ -5,8 +5,9 @@ api = responder.API()
 @api.route("/")
 class Server:
     def __init__(self, cmd):
+        super().__init__()
         self.cmd = cmd
-
+        
     def on_request(self, req, resp):
         resp.html = api.template("form.html")
 
