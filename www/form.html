@@ -3,7 +3,7 @@
     <form>
       {% for param in params %}
         {{ param.label }}
-        <input type="text" name="{{ param.name }}"></input>
+        <input type="text" name="{{param.name}}" id="{{param.name}}"></input>
       {% endfor %}
     </form>
   </body>
