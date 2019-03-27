@@ -1,0 +1,3 @@
+{
+    "python.pythonPath": "${workspaceFolder}/build/testenv/Scripts/python.exe"
+}
