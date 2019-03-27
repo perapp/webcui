@@ -2,3 +2,4 @@ responder
 pytest
 selenium
 pytest-selenium
+dataclasses

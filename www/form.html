@@ -1,0 +1,10 @@
+<html>
+  <body>
+    <form>
+      {% for param in params %}
+        {{ param.label }}
+        <input type="text" name="{{ param.name }}"></input>
+      {% endfor %}
+    </form>
+  </body>
+</html>
