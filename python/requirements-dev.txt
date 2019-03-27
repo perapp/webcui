@@ -1,0 +1,3 @@
+# Additional requirements needed during build, test and deploy 
+
+beautifulsoup4
