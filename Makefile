@@ -31,7 +31,7 @@ build/buildenv:
 	$@/bin/python -m pip install --upgrade setuptools wheel twine
 build/testenv:
 	$(VENV_PY) -m venv $@
-	$@/bin/python -m pip install pytest -r python/requirements.txt
+	$@/bin/python -m pip install pytest -r python/requirements.txt -r python/requirements-dev.txt
 build/testpypienv:
 	$(VENV_PY) -m venv $@
 	$@/bin/python -m pip install pytest
