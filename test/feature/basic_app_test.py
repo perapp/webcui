@@ -1,3 +1,6 @@
+"""
+Test the most basic app possible.
+"""
 import webcui
 import bs4 as bs
 

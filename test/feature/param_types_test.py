@@ -1,3 +1,6 @@
+"""
+Tests for typed parameters.
+"""
 import webcui
 
 def cmd(your_name: str, your_age: int):
