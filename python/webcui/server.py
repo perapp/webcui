@@ -7,7 +7,7 @@ class Server:
     def __init__(self, cmd):
         self.cmd = cmd
 
-    def on_get(self, req, resp):
+   def on_request(self, req, resp):
         resp.html = api.template("form.html")
 
     def run(self):
