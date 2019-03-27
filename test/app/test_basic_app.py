@@ -6,7 +6,7 @@ def cmd(your_name):
    return f"Hello {your_name}!"
 
 def test_form():
-.  doc = bs.B.BeautifulSoup(api.requests.get("/").text)
+   doc = bs.B.BeautifulSoup(api.requests.get("/").text)
    assert doc.find(id="your_name") is not None
 
 if __name__ == '__main__':
