@@ -40,8 +40,10 @@ def cmd(argv):
 
         if sys.platform == 'win32':
             libpath = envpath/"Lib"/"site-packages"
+            (libpath/"webcui.pth").write_text("..\\..\\..\\..\\..\\python\n")
         else:
             libpath = envpath/"lib"/("python%d.%d" % sys.version_info[:2])/"site-packages"
+            (libpath/"webcui.pth").write_text("../../../../../../python\n")
 
         run_python(stage,
                    "-m", "pip", "install", "--upgrade", "pip")
@@ -49,7 +51,6 @@ def cmd(argv):
                    "-m", "pip", "install", "--upgrade",
                    "-r", str(home_path()/"python"/"requirements-dev.txt"),
                    "-r", str(home_path()/"python"/"requirements.txt"))
-        (libpath/"devsrc.pth").write_text("../../../../../../python")
 
 if __name__ == "__main__":
     cmd(sys.argv)

@@ -1,28 +1,42 @@
 <!DOCTYPE html>
 <html>
-<title>W3.CSS</title>
+<title>Web Command</title>
+<meta charset="UTF-8"> 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <body>
-<div id="main" class="w3-panel">
 
+<div id="form" class="w3-panel">
 <div class="w3-container w3-teal">
-  <h2>Input Form</h2>
+  <h2>Input</h2>
 </div>
-<form class="w3-container w3-card-4">
+<form method="get" action="/" class="w3-container w3-card-4">
 <br>
 
 {% for param in params %}
 <p>      
   <label class="w3-text-grey">{{ param.label }}</label>
-  <input class="w3-input w3-border" type="text" name="{{param.name}}" id="{{param.name}}" required/>
+  <input class="w3-input w3-border" type="text" name="{{param.name}}" id2="{{param.name}}"/>
 </p>
 {% endfor %}
 
-<br>
-  <p><button type="button" class="w3-btn w3-padding w3-teal" style="width:120px">Run &nbsp; &#10095;</button></p>
-</form>
+<input type="hidden" name="run" value="true"/>
 
+<br>
+  <p><button type="submit" class="w3-btn w3-padding w3-teal" style="width:120px">Run &nbsp; &#10095;</button></p>
+</form>
 </div>
+
+{% if result %}
+<div id="result" class="w3-panel">
+<div class="w3-container w3-teal">
+  <h2>Result</h2>
+</div>
+<div class="w3-container w3-card-4">
+  <p>{{result}}</p>
+</div>
+</div>
+{% endif %}
+
 </body>
 </html> 
