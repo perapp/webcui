@@ -1,6 +1,10 @@
-VENV_PY  = python3
-PYTHON   = build/buildenv/bin/python
-TPYTHON  = build/testenv/bin/python
+ifeq (${OS},Windows_NT)
+	PYTHON_SYS = python.exe
+	PYTHON     = Scripts/python.exe
+else
+	PYTHON_SYS = python3
+	PYTHON     = bin/python
+endif
 
 .PHONY:
 	build
@@ -8,11 +12,11 @@ TPYTHON  = build/testenv/bin/python
 	test_twine_env
 
 build: build/buildenv
-	$(PYTHON) python/setup.py sdist --dist-dir build/dist
-	$(PYTHON) python/setup.py bdist_wheel --dist-dir build/dist
+	$</$(PYTHON) python/setup.py sdist --dist-dir build/dist
+	$</$(PYTHON) python/setup.py bdist_wheel --dist-dir build/dist
 
-test: build/testenv
-	PYTHONPATH=python $</bin/python -m pytest test
+test: build/env/test
+	$</$(PYTHON) -m pytest test
 
 run: build/testenv
 	PYTHONPATH=python $</bin/python test/app/test_basic_app.py
@@ -26,17 +30,15 @@ test_deploy: test_twine_env
 deploy:
 	$(PYTHON) -m twine upload -u "$PYPI_USER" -p "$PYPI_PASSWORD" build/dist/*
 
-build/buildenv:
-	$(VENV_PY) -m venv --copies $@
-	$@/bin/python -m pip install --upgrade setuptools wheel twine
-build/testenv:
-	$(VENV_PY) -m venv $@
-	$@/bin/python -m pip install pytest -r python/requirements.txt -r python/requirements-dev.txt
-build/testpypienv:
+build/env/build:
+	$(PYTHON_SYS) python/buildtools/buildenv.py $(@F)
+build/env/test:
+	$(PYTHON_SYS) python/buildtools/buildenv.py $(@F)
+build/env/testpypi:
 	$(VENV_PY) -m venv $@
 	$@/bin/python -m pip install pytest
 	$@/bin/python -m pip install --index-url https://test.pypi.org/simple/ webcui
-build/pypienv:
+build/env/pypi:
 	$(VENV_PY) -m venv $@
 	$@/bin/python -m pip install pytest webcui
 
