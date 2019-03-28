@@ -11,7 +11,7 @@ endif
 	test
 	test_twine_env
 
-build: build/buildenv
+build: build/env/build
 	$</$(PYTHON) python/setup.py sdist --dist-dir build/dist
 	$</$(PYTHON) python/setup.py bdist_wheel --dist-dir build/dist
 
