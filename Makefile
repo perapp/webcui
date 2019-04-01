@@ -19,40 +19,25 @@ test: build/env/test
 	$</$(PYTHON) -m pytest test
 
 run: build/testenv
-	PYTHONPATH=python $</bin/python test/app/test_basic_app.py
+	$</$(PYTHON) test/app/test_basic_app.py
 
-test_deploy: test_twine_env
-	$(PYTHON) -m twine upload -u ${PYPI_USER} -p ${PYPI_PASSWORD} --repository-url https://test.pypi.org/legacy/ build/dist/*
-	$(VENV_PY) -m venv build/testenv
-	$(TPYTHON) -m pip install --index-url https://test.pypi.org/simple/ webcui
-	$(TPYTHON) -m pytest test
+test_deploy: build/env/testpypi build
+	$</$(PYTHON) -m twine upload --repository-url https://test.pypi.org/legacy/ build/dist/*
+	$</$(PYTHON) -m pip install --index-url https://test.pypi.org/simple/ webcui
+	$</$(PYTHON) -m pytest test
 
-deploy:
-	$(PYTHON) -m twine upload -u "$PYPI_USER" -p "$PYPI_PASSWORD" build/dist/*
+deploy: build/env/build
+	$</$(PYTHON) -m twine upload build/dist/*
 
 build/env/build:
 	$(PYTHON_SYS) python/buildtools/buildenv.py $(@F)
 build/env/test:
 	$(PYTHON_SYS) python/buildtools/buildenv.py $(@F)
 build/env/testpypi:
-	$(VENV_PY) -m venv $@
-	$@/bin/python -m pip install pytest
-	$@/bin/python -m pip install --index-url https://test.pypi.org/simple/ webcui
+	$(PYTHON_SYS) python/buildtools/buildenv.py $(@F)
 build/env/pypi:
-	$(VENV_PY) -m venv $@
-	$@/bin/python -m pip install pytest webcui
+	$(PYTHON_SYS) python/buildtools/buildenv.py $(@F)
 
 clean:
 	rm -rf build
 	rm -rf python/*.egg-info
-
-test_twine_env:
-ifeq (${PYPI_USER},)
-	echo "PYPI_USER variable not set" >&2
-	exit 1
-endif
-ifeq (${PYPI_PASSWORD},)
-	echo "PYPI_PASSWORD variable not set" >&2
-	exit 1
-endif
-

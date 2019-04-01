@@ -6,7 +6,7 @@ readme = (home/"README.md").read_text()
 
 setuptools.setup(
     name="webcui",
-    version="0.0.1",
+    version="0.1.1",
     author="Per Appelgren",
     author_email="per@appgren.se",
     description="A web command user interface",

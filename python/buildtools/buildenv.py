@@ -38,12 +38,13 @@ def cmd(argv):
         envb = venv.EnvBuilder(with_pip=True)
         envb.create(str(envpath))
 
-        if sys.platform == 'win32':
-            libpath = envpath/"Lib"/"site-packages"
-            (libpath/"webcui.pth").write_text("..\\..\\..\\..\\..\\python\n")
-        else:
-            libpath = envpath/"lib"/("python%d.%d" % sys.version_info[:2])/"site-packages"
-            (libpath/"webcui.pth").write_text("../../../../../../python\n")
+        if "pypi" not in stage:
+            if sys.platform == 'win32':
+                libpath = envpath/"Lib"/"site-packages"
+                (libpath/"webcui.pth").write_text("..\\..\\..\\..\\..\\python\n")
+            else:
+                libpath = envpath/"lib"/("python%d.%d" % sys.version_info[:2])/"site-packages"
+                (libpath/"webcui.pth").write_text("../../../../../../python\n")
 
         run_python(stage,
                    "-m", "pip", "install", "--upgrade", "pip")
