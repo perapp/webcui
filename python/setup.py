@@ -3,10 +3,11 @@ import pathlib
 
 home = pathlib.Path(__file__).parent.parent
 readme = (home/"README.md").read_text()
+requirements = (home/"python"/"requirements.txt").read_text().split("\n")
 
 setuptools.setup(
     name="webcui",
-    version="0.1.1",
+    version="0.1.2",
     author="Per Appelgren",
     author_email="per@appgren.se",
     description="A web command user interface",
@@ -21,4 +22,5 @@ setuptools.setup(
         "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
         "Operating System :: OS Independent",
     ],
+    install_requires=requirements,
 )

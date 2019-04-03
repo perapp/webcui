@@ -26,7 +26,7 @@ test_deploy: build/env/testpypi build
 	$</$(PYTHON) -m pip install --index-url https://test.pypi.org/simple/ webcui
 	$</$(PYTHON) -m pytest test
 
-deploy: build/env/build
+deploy: build/env/build build
 	$</$(PYTHON) -m twine upload build/dist/*
 
 build/env/build:
