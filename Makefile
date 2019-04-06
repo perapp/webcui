@@ -9,7 +9,6 @@ endif
 .PHONY:
 	build
 	test
-	test_twine_env
 
 build: build/env/build
 	$</$(PYTHON) python/setup.py sdist --dist-dir build/dist

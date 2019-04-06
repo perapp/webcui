@@ -1,5 +1,7 @@
 responder
+dataclasses
+paramiko
+docker
 pytest
 selenium
 pytest-selenium
-dataclasses
