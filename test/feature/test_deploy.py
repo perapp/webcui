@@ -12,7 +12,7 @@ def test_deploy(deploy_server):
           host  = "{host}"
           port  = 80
         """)
-    deployer.set_pkey_data(read_file(deploy_server, "/root/.ssh/id_rsa"))
+    deployer.set_rsakey_data(read_file(deploy_server, "/root/.ssh/id_rsa"))
     deployer.deploy()
 
 def read_file(container, path):

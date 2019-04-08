@@ -1,5 +1,6 @@
 import paramiko
-from paramiko.pkey import PKey
+from paramiko.rsakey import RSAKey
+from paramiko.client import AutoAddPolicy
 import pathlib
 import toml
 
@@ -12,6 +13,8 @@ class Deployer(object):
     def deploy(self):
         self.build()
         ssh = paramiko.SSHClient()
+        ssh.load_system_host_keys()
+        ssh.set_missing_host_key_policy(AutoAddPolicy)
         ssh.connect(self.env_conf["host"],
                     pkey=self.pkey)
 
@@ -47,5 +50,5 @@ class Deployer(object):
     def set_conf_data(self, data: str):
         self._conf = toml.loads(data)
 
-    def set_pkey_data(self, data: str):
-        self.pkey = PKey(data=data)
+    def set_rsakey_data(self, data: bytes):
+        self.pkey = RSAKey(data=data)

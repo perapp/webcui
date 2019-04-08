@@ -16,11 +16,11 @@ docker: build/docker/debian.log build/docker/deployenv.log
 
 build/docker/debian.log:
 	mkdir -p build/docker
-	docker build -t perapp/webcui_debian -f docker/debian.docker . | tee $@
+	docker build -t perapp/webcui_debian -f docker/debian.docker . && touch $@
 
 build/docker/deployenv.log: build/docker/debian.log docker/deployenv.docker
 	mkdir -p build/docker
-	docker build -t perapp/webcui_deployenv -f docker/deployenv.docker . | tee $@
+	docker build -t perapp/webcui_deployenv -f docker/deployenv.docker . && touch $@
 
 test: build/env/test
 	$</$(PYTHON) -m pytest test

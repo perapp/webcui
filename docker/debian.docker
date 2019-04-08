@@ -7,5 +7,5 @@ RUN apt-get -y install openssh-server
 RUN ssh-keygen -f $HOME/.ssh/id_rsa -P ""
 RUN cat $HOME/.ssh/id_rsa.pub >> $HOME/.ssh/authorized_keys
 
-EXPOSE 21
+EXPOSE 22
 CMD service ssh start && tail -f /dev/null

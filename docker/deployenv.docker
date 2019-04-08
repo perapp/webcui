@@ -12,4 +12,5 @@ RUN add-apt-repository \
 RUN apt-get update
 RUN apt-get -y install docker-ce docker-ce-cli containerd.io
 
+EXPOSE 22
 CMD service ssh start && service docker start && tail -f /var/log/docker.log
