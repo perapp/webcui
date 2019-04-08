@@ -1,4 +1,5 @@
 import paramiko
+from paramiko.pkey import PKey
 import pathlib
 import toml
 
@@ -11,7 +12,8 @@ class Deployer(object):
     def deploy(self):
         self.build()
         ssh = paramiko.SSHClient()
-        ssh.connect(self.env_conf["host"])
+        ssh.connect(self.env_conf["host"],
+                    pkey=self.pkey)
 
     def build(self):
         pass
@@ -42,5 +44,8 @@ class Deployer(object):
     def conf_path(self):
         return pathlib.Path("./webcui.conf") # TODO:
 
-    def load_confs(self, data):
+    def set_conf_data(self, data: str):
         self._conf = toml.loads(data)
+
+    def set_pkey_data(self, data: str):
+        self.pkey = PKey(data=data)
