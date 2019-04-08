@@ -6,13 +6,21 @@ else
 	PYTHON     = bin/python
 endif
 
-.PHONY:
-	build
-	test
+.PHONY:	build docker test
 
-build: build/env/build
+build: build/env/build docker
 	$</$(PYTHON) python/setup.py sdist --dist-dir build/dist
 	$</$(PYTHON) python/setup.py bdist_wheel --dist-dir build/dist
+
+docker: build/docker/debian.log build/docker/deployenv.log
+
+build/docker/debian.log:
+	mkdir -p build/docker
+	docker build -t perapp/webcui_debian -f docker/debian.docker . | tee $@
+
+build/docker/deployenv.log: build/docker/debian.log docker/deployenv.docker
+	mkdir -p build/docker
+	docker build -t perapp/webcui_deployenv -f docker/deployenv.docker . | tee $@
 
 test: build/env/test
 	$</$(PYTHON) -m pytest test
@@ -40,3 +48,5 @@ build/env/pypi:
 clean:
 	rm -rf build
 	rm -rf python/*.egg-info
+	docker images -q perapp/webcui_deployenv | xargs -r docker rmi
+	docker images -q perapp/webcui_debian | xargs -r docker rmi

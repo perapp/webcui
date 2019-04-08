@@ -4,6 +4,14 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
+        {
+            "name": "Pytest",
+            "type": "python",
+            "request": "launch",
+            "program": "-m test ${workspaceFolder}/test",
+            "console": "integratedTerminal"
+        },
         {
             "name": "Ex App: Basic",
             "type": "python",

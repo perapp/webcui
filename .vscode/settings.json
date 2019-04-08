@@ -1,4 +1,10 @@
 {
     "python.venvPath": "${workspaceFolder}/build/env",
-    "python.pythonPath": "build\\env\\build\\Scripts\\python.exe"
+    "python.unitTest.pyTestEnabled": true,
+    "python.unitTest.pyTestArgs": [
+        "test"
+    ],
+    "python.unitTest.unittestEnabled": false,
+    "python.unitTest.nosetestsEnabled": false,
+    "python.pythonPath": "build\\env\\test\\Scripts\\python.exe"
 }

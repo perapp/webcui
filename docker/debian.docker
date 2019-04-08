@@ -1,0 +1,11 @@
+# Docker image with ssh server installed on Debian.
+# Image used to test "install docker" feature.
+FROM debian
+
+RUN apt-get update
+RUN apt-get -y install openssh-server
+RUN ssh-keygen -f $HOME/.ssh/id_rsa -P ""
+RUN cat $HOME/.ssh/id_rsa.pub >> $HOME/.ssh/authorized_keys
+
+EXPOSE 21
+CMD service ssh start && tail -f /dev/null
