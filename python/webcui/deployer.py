@@ -16,7 +16,8 @@ class Deployer(object):
         ssh.load_system_host_keys()
         ssh.set_missing_host_key_policy(AutoAddPolicy)
         ssh.connect(self.env_conf["host"],
-                    pkey=self.pkey)
+                    username=self.env_conf.get("username"),
+                    password=self.env_conf.get("password"))
 
     def build(self):
         pass
@@ -47,8 +48,14 @@ class Deployer(object):
     def conf_path(self):
         return pathlib.Path("./webcui.conf") # TODO:
 
-    def set_conf_data(self, data: str):
-        self._conf = toml.loads(data)
-
-    def set_rsakey_data(self, data: bytes):
-        self.pkey = RSAKey(data=data)
+    def load_conf(self,
+                  path: pathlib.Path = None,
+                  data: str = None):
+        if data is not None:
+            self._conf = toml.loads(data)
+            return self.conf
+        elif path is not None:
+            return self.load_conf(data=path.read_text())
+        else:
+            return self.load_conf(path=self.conf_path)
+            

@@ -3,9 +3,12 @@
 FROM debian
 
 RUN apt-get update
-RUN apt-get -y install openssh-server
-RUN ssh-keygen -f $HOME/.ssh/id_rsa -P ""
-RUN cat $HOME/.ssh/id_rsa.pub >> $HOME/.ssh/authorized_keys
+RUN apt-get -y install sudo openssh-server
+RUN adduser --disabled-password --gecos "" webcui
+RUN echo webcui:webcui | chpasswd
+
+RUN adduser webcui sudo
+RUN echo 'user ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 EXPOSE 22
 CMD service ssh start && tail -f /dev/null

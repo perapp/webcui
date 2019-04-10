@@ -14,7 +14,7 @@ build: build/env/build docker
 
 docker: build/docker/debian.log build/docker/deployenv.log
 
-build/docker/debian.log:
+build/docker/debian.log: docker/debian.docker
 	mkdir -p build/docker
 	docker build -t perapp/webcui_debian -f docker/debian.docker . && touch $@
 
