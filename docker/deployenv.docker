@@ -12,5 +12,12 @@ RUN add-apt-repository \
 RUN apt-get update
 RUN apt-get -y install docker-ce docker-ce-cli containerd.io
 
+# Always sudo docker in order for webcui user to run docker
+RUN echo '#!/bin/bash' > /usr/local/bin/docker
+RUN echo 'sudo /usr/bin/docker "$@"' >> /usr/local/bin/docker
+RUN chmod +x /usr/local/bin/docker
+
+RUN adduser webcui docker
+
 EXPOSE 22
-CMD service ssh start && service docker start && tail -f /var/log/docker.log
+CMD service ssh start && tail -f /dev/null

@@ -1,5 +1,6 @@
 import pytest
 import docker
+from docker.types import Mount
 
 @pytest.fixture(scope='session')
 def deploy_server():
@@ -11,9 +12,12 @@ def deploy_server():
     client = docker.from_env()
     container = client.containers.run(image, 
                                       detach=True,
-                                      labels=["pytest"],
-                                      publish_all_ports=True,
                                       remove=True,
+                                      publish_all_ports=True,
+                                      labels=["pytest"],
+                                      mounts=[Mount("/var/run/docker.sock",
+                                                    "/var/run/docker.sock",
+                                                    type="bind")],
                                       privileged=True)
     container.reload()
     

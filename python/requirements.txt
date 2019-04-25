@@ -1,3 +1,4 @@
+requests
 responder
 dataclasses
 paramiko
@@ -5,5 +6,5 @@ docker
 pytest
 selenium
 pytest-selenium
-docker
 toml
+requests

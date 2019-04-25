@@ -8,7 +8,7 @@ def cmd(your_name):
    """A command greeting you"""
    return f"Hello {your_name}!"
 
-server = webcui.Server(cmd)
+server = webcui.Server(cmd=cmd)
 
 def test_form():
    doc = bs.BeautifulSoup(server.requests.get("/").text,

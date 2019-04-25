@@ -1,26 +1,16 @@
-from webcui.deployer import Deployer
-import tarfile
-import io
+import webcui
+from pathlib import Path
 
 def test_deploy(deploy_server):
     host = deploy_server.attrs['NetworkSettings']['IPAddress']
-    deployer = Deployer("prod")
-    deployer.load_conf(data=f"""
-        [environments]
+    src_file = Path(__file__).parent.parent/"example"/"basic"/"cmd.py"
+    app_code = compile(src_file.read_bytes(), src_file, "exec")
+    app_vars = {}
+    exec(app_code, app_vars)
+    webcui.run(app_vars["cmd"],
+               ["deploy"],
+               env={"HOST": host,
+                    "USER": "webcui",
+                    "PASSWORD": "webcui"},
+               standalone_mode=False)
 
-          [environments.prod]
-          host  = "{host}"
-          port  = 80
-          username = "webcui"
-          password = "webcui"
-        """)
-    deployer.deploy()
-
-def read_file(container, path):
-  tar_data = next(container.get_archive(path)[0])
-  with tarfile.open(fileobj=io.BytesIO(tar_data)) as tarobj:
-      return tarobj.extractfile(tarobj.next()).read()
-
-if __name__ == "__main__":
-  import pytest
-  pytest.main(["--pdb", __file__])

@@ -2,6 +2,7 @@ import responder
 from dataclasses import dataclass
 import inspect
 import traceback
+from .app import App
 
 @dataclass
 class Parameter(object):
@@ -9,9 +10,13 @@ class Parameter(object):
     label: str
 
 class Server(object):
-    def __init__(self, cmd):
-        self.cmd = cmd
-        self.argspec = inspect.getfullargspec(self.cmd)
+    def __init__(self, cmd=None, app=None):
+        if app:
+            self.app = app
+        else:
+            self.app = App(cmd)
+
+        self.argspec = inspect.getfullargspec(self.app.cmd)
         self.api = responder.API(templates_dir="www")
         self.api.add_route("/", self.on_get)
 
@@ -24,9 +29,9 @@ class Server(object):
         else:
             result = None
 
-        doc = self.cmd.__doc__
+        doc = self.app.cmd.__doc__
         if not doc:
-            doc = self.cmd.__name__
+            doc = self.app.cmd.__name__
 
         params = [Parameter(x, x)
                   for x in self.argspec.args]
@@ -42,7 +47,7 @@ class Server(object):
 
         paramv = [self.parse_arg(x, params[x])
                   for x in self.argspec.args]
-        return self.cmd(*paramv)
+        return self.app.cmd(*paramv)
     
     def parse_arg(self, name, value):
         type_ = self.argspec.annotations.get(name)
