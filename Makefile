@@ -8,9 +8,12 @@ endif
 
 .PHONY:	build docker test
 
-build: build/env/build docker
+build: foo build/env/build docker
 	$</$(PYTHON) python/setup.py sdist --dist-dir build/dist
 	$</$(PYTHON) python/setup.py bdist_wheel --dist-dir build/dist
+
+foo:
+	ls -l /var/run/
 
 docker: build/docker/debian.log build/docker/deployenv.log
 
