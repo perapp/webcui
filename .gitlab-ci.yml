@@ -1,4 +1,6 @@
 image: python:latest
+services:
+  - docker:dind
 
 build:
    stage: build
