@@ -1,6 +1,13 @@
 image: python:latest
+
 services:
   - docker:dind
+
+variables:
+  DOCKER_HOST: http://docker:2375
+
+before_script:
+  - pip install docker
 
 build:
    stage: build
