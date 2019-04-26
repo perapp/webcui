@@ -1,5 +1,0 @@
-# Additional requirements needed during build, test and deploy 
-setuptools
-wheel
-twine
-beautifulsoup4
