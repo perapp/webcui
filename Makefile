@@ -14,7 +14,7 @@ build: foo build/env/build docker
 
 foo:
 	python3 -m pip install docker
-	python3 -c "import docker; print(docker.from_env().containers.run('hello-world').decode('utf-8'))"
+	DOCKER_HOST=http://docker:2375 python3 -c "import docker; print(docker.from_env().containers.run('hello-world').decode('utf-8'))"
 
 docker: build/docker/debian.log build/docker/deployenv.log
 
