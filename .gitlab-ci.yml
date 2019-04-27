@@ -11,8 +11,8 @@ before_script:
 
 build:
    stage: build
-   script: python -m pipenv run pyb package
+   script: bin/make.py package
 
 test:
    stage: test
-   script: python -m pipenv run pyb verify
+   script: bin/make.py verify
