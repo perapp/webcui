@@ -1,4 +1,4 @@
-image: python:latest
+image: python:3.6
 
 services:
   - docker:dind
@@ -16,3 +16,7 @@ build:
 test:
    stage: test
    script: bin/make.py verify
+
+cache:
+  paths:
+    - $HOME/.local/share/virtualenvs/
