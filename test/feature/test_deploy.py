@@ -2,6 +2,8 @@ import webcui
 from pathlib import Path
 
 def test_deploy(deploy_server):
+    import pprint
+    pprint.pprint(deploy_server.attrs)
     host = deploy_server.attrs['NetworkSettings']['IPAddress']
     print("TEST DEPLOY on", host)
     src_file = Path(__file__).parent.parent/"example"/"basic"/"cmd.py"
