@@ -20,7 +20,7 @@ def initialize(project):
 
 @task
 @depends("docker")
-def package():
+def compile_sources():
     pass
 
 
@@ -39,7 +39,7 @@ def build_docker_image(project, logger, dockerfile):
     logger.info(f"Building image {name} from {dockerfile}")
     for line in docker_api.build(path=str(project.basepath),
                                  dockerfile=str(dockerfile),
-                                 tag=f"perapp/webcui_{name}"):
+                                 tag=name):
         entry = json.loads(line)
         try:
             logger.debug(entry["stream"].rstrip())

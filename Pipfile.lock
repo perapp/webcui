@@ -1,12 +1,10 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9ac3a619102b314cdc35507148e6b618ca5c4400bf9375e0362e207d04e3ac51"
+            "sha256": "c9744955ace94a26b876171526b2751a8d45e63cfa4a5382cbac4022ed60843b"
         },
         "pipfile-spec": 6,
-        "requires": {
-            "python_version": "3.6"
-        },
+        "requires": {},
         "sources": [
             {
                 "name": "pypi",
@@ -311,8 +309,7 @@
         },
         "pycparser": {
             "hashes": [
-                "sha256:a988718abfad80b6b157acce7bf130a30876d27603738ac39f140993246b25b3",
-                "sha256:b9b140be6033bbad7fe0002bed5ab57b01053c08848a94ab27283a46bd3255d6"
+                "sha256:a988718abfad80b6b157acce7bf130a30876d27603738ac39f140993246b25b3"
             ],
             "version": "==2.19"
         },
@@ -452,7 +449,7 @@
                 "sha256:c48692bf4587ce281d641087658eca275a5ad3b63c78297bbded96570ae9ce8f",
                 "sha256:fefc3b2b947c99737c348887db2c32e539160dcbeb7af9aa6b53db7a283538fe"
             ],
-            "markers": "sys_platform != 'win32' and sys_platform != 'cygwin' and platform_python_implementation != 'pypy'",
+            "markers": "sys_platform != 'win32'",
             "version": "==0.12.2"
         },
         "websockets": {
