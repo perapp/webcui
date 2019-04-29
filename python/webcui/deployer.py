@@ -72,6 +72,7 @@ class Deployer(object):
         ssh = MySSHClient()
         ssh.load_system_host_keys()
         ssh.set_missing_host_key_policy(AutoAddPolicy)
+        print("CONNECT", self.env_conf["host"], self.env_conf.get("ssh_port", "22"))
         ssh.connect(self.env_conf["host"],
                     port=int(self.env_conf.get("ssh_port", "22")),
                     username=self.env_conf.get("username"),
