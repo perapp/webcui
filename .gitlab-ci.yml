@@ -20,3 +20,4 @@ test:
 cache:
   paths:
     - $HOME/.local/share/virtualenvs/
+    - /root/.local/share/virtualenvs/

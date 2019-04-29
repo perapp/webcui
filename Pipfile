@@ -20,4 +20,5 @@ responder = "*"
 dataclasses = "*"
 paramiko = "*"
 toml = "*"
-
+e1839a8 = {editable = true,path = "."}
+webcui = {editable = true,path = "."}

@@ -52,7 +52,6 @@ class Deployer(object):
             except CalledProcessError:
                 self.install_docker()
             ssh.run("docker run hello-world")
-            ssh.run("docker pull perapp/webcui")
 
     def install_docker(self):
         with self.connect() as ssh:
@@ -74,6 +73,7 @@ class Deployer(object):
         ssh.load_system_host_keys()
         ssh.set_missing_host_key_policy(AutoAddPolicy)
         ssh.connect(self.env_conf["host"],
+                    port=int(self.env_conf.get("ssh_port", "22")),
                     username=self.env_conf.get("username"),
                     password=self.env_conf.get("password"))
         return ssh

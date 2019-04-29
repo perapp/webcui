@@ -15,14 +15,13 @@ def initialize(project):
     project.basepath = Path(project.basedir)
     project.set_property('dir_source_main_python', 'python')
 
-    project.get_property("pytest_extra_args").extend(["-x", "-s"])
+    project.get_property("pytest_extra_args").extend(["-x", "-s", "--tb=native"])
     project.set_property("dir_source_pytest_python", "test")
 
 @task
 @depends("docker")
 def compile_sources():
     pass
-
 
 @task("docker", description="Build Docker images used during testing")
 def build_docker_images(project, logger):

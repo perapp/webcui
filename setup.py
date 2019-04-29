@@ -1,9 +1,20 @@
 import setuptools
 import pathlib
 
-home = pathlib.Path(__file__).parent.parent
+home = pathlib.Path(__file__).parent
 readme = (home/"README.md").read_text()
-requirements = (home/"python"/"requirements.txt").read_text().split("\n")
+requirements = [
+    "requests",
+    "responder",
+    "dataclasses",
+    "paramiko",
+    "docker",
+    "pytest",
+    "selenium",
+    "pytest-selenium",
+    "toml",
+    "requests",
+]
 
 setuptools.setup(
     name="webcui",
