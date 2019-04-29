@@ -32,6 +32,8 @@ def deploy_server():
         host_port_map["HostIp"] = docker_host
 
     print(f"Started {image} on {client.api.base_url} with port mapping: {container.attrs['NetworkSettings']['Ports']}")
-
+    client.containers.run("rastasheep/ubuntu-sshd", 
+                          remove=True,
+                          command=f"ssh -l webcui {docker_host or 'gitlab.com'}")
     yield container
     container.kill()
