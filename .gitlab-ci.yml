@@ -34,4 +34,4 @@ build:deployenv:
 
 test:
    stage: test
-   script: docker run -e DOCKER_PORT=$DOCKER_PORT -e DOCKER_HOST=$DOCKER_PORT $CI_REGISTRY_IMAGE/webcui:$CI_COMMIT_SHA make test
+   script: docker run -e DOCKER_PORT=$DOCKER_PORT -e DOCKER_HOST=$DOCKER_PORT -e DOCKER_PREFIX=$DOCKER_PREFIX $CI_REGISTRY_IMAGE/webcui:$CI_COMMIT_SHA make test
