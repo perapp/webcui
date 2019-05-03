@@ -3,9 +3,6 @@ image: docker
 services:
   - docker:dind
 
-#variables:
-#   PIP_DEFAULT_TIMEOUT=100
-
 before_script:
   - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   - echo $CI_REGISTRY_IMAGE
@@ -14,7 +11,7 @@ before_script:
 build:
    stage: build
    script:
-    - docker build --pull --rm=false -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
+    - docker build --pull --cache-from="$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
     - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
 
 test:
