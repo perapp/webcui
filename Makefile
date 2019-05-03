@@ -19,7 +19,7 @@ build:
 
 test:
 	poetry run python test/mkdocker.py
-	poetry run python -m pytest test
+	poetry run python -m pytest -s --tb=native test
 
 publish: build
 	poetry publish

@@ -81,7 +81,7 @@ class App(object):
             ar.add(self.project_base_dir, root/"app"/self.name)
             ar.add(docker_file, root/"Dockerfile")
             ar.add(webcui_dir, root/"lib"/"webcui")
-            ar.add(webcui_dir.parent/"requirements.txt", root/"lib"/"webcui"/"requirements.txt")  # TODO: fix path to req.txt
+            ar.add(webcui_dir.parent/"python"/"requirements.txt", root/"lib"/"webcui"/"requirements.txt")  # TODO: fix path to req.txt
             ar.close()
         return build_file
 
