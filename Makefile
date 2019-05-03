@@ -18,6 +18,7 @@ build:
 	poetry build
 
 test:
+	poetry run python test/mkdocker.py
 	poetry run python -m pytest test
 
 publish: build
