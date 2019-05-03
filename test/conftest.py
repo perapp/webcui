@@ -11,7 +11,8 @@ def deploy_server():
     The value of the fixture is a docker container object.
     """
     prefix = os.environ.get("DOCKER_PREFIX")
-    image = f"{prefix}deployenv"
+    image = f"{prefix}deployenv
+    print(image)
     client = docker.from_env()
     container = client.containers.run(image, 
                                       detach=True,
