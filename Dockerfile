@@ -1,5 +1,6 @@
 FROM python:latest
 
+ENV PIP_DEFAULT_TIMEOUT 60
 RUN pip install poetry
 RUN mkdir /project
 WORKDIR /project
