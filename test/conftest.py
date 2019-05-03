@@ -10,7 +10,8 @@ def deploy_server():
     A fixture setting up a server to test deployment on.
     The value of the fixture is a docker container object.
     """
-    image = "perapp/webcui_deployenv"
+    prefix = os.environ.get(DOCKER_PREFIX)
+    image = f"{prefix}deployenv"
     client = docker.from_env()
     container = client.containers.run(image, 
                                       detach=True,
