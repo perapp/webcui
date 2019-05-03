@@ -10,7 +10,7 @@ def deploy_server():
     A fixture setting up a server to test deployment on.
     The value of the fixture is a docker container object.
     """
-    prefix = os.environ.get("DOCKER_PREFIX")
+    prefix = os.environ.get("DOCKER_PREFIX", "")
     image = f"{prefix}deployenv
     print(image)
     client = docker.from_env()
