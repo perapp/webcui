@@ -14,4 +14,4 @@ build:
 
 test:
    stage: test
-   script: docker run "$CI_REGISTRY_IMAGE:$DIST-$CI_COMMIT_REF_SLUG" make test
+   script: docker run "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" make test
