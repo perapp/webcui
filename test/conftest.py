@@ -23,17 +23,14 @@ def deploy_server():
                                       privileged=True)
     container.reload()
 
-    ports = container.attrs['NetworkSettings']['Ports']
-    host_port_map = ports["22/tcp"][0]
+    #ports = container.attrs['NetworkSettings']['Ports']
+    #host_port_map = ports["22/tcp"][0]
 
     # translate HostIp to $DOCKER_HOST for when running in dind mode (e.g. in Gitlab CI)
-    docker_host = urlparse(os.environ.get("DOCKER_HOST")).hostname
-    if docker_host and host_port_map.get("HostIp") == "0.0.0.0":
-        host_port_map["HostIp"] = docker_host
+    #docker_host = urlparse(os.environ.get("DOCKER_HOST")).hostname
+    #if docker_host and host_port_map.get("HostIp") == "0.0.0.0":
+    #    host_port_map["HostIp"] = docker_host
 
     print(f"Started {image} on {client.api.base_url} with port mapping: {container.attrs['NetworkSettings']['Ports']}")
-    client.containers.run("rastasheep/ubuntu-sshd", 
-                          remove=True,
-                          command=f"ssh -l webcui {docker_host or 'gitlab.com'}")
     yield container
     container.kill()

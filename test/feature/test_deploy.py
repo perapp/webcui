@@ -15,9 +15,12 @@ def test_deploy(deploy_server):
         shutil.copytree(app_dir, tmp_dir/app_name)
         app_dir = tmp_dir/app_name
 
-        ssh_port_map = deploy_server.attrs['NetworkSettings']['Ports']["22/tcp"][0]
-        ssh_host = ssh_port_map["HostIp"]
-        ssh_port = ssh_port_map["HostPort"]
+        #ssh_port_map = deploy_server.attrs['NetworkSettings']['Ports']["22/tcp"][0]
+        #ssh_host = ssh_port_map["HostIp"]
+        #ssh_port = ssh_port_map["HostPort"]
+
+        ssh_host = deploy_server.attrs['NetworkSettings']["IPAddress"]
+        ssh_port = 22
         print(f"Test deploy on Docker container {ssh_host}:{ssh_port}")
 
         conf = toml.load(app_dir/"webcui.conf")
