@@ -3,8 +3,8 @@ image: docker
 services:
   - docker:dind
 
-variables:
-  DOCKER_HOST: http://docker:2375
+#variables:
+#  DOCKER_HOST: http://docker:2375
 
 before_script:
   - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
