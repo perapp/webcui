@@ -16,4 +16,4 @@ build:
 
 test:
    stage: test
-   script: docker run -e DOCKER_PORT=$DOCKER_PORT "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" make test
+   script: docker run -e DOCKER_PORT=$DOCKER_PORT -e DOCKER_HOST=$DOCKER_PORT "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" make test
