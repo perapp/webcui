@@ -5,17 +5,35 @@ else
 	PYTHON_SYS = python3
 	PYTHON     = bin/python
 endif
+ifeq (${VERSION},)
+	VERSION = $(shell date --utc -Iseconds | sed 's/://g; s/+.*//')
+endif
+ifeq (${DOCKER_PREFIX},)
+	DOCKER_PREFIX = webcui/
+endif
+
 PYTHON = poetry run python
 
 .PHONY:	build docker test
+
+build:
+	poetry build
+
+docker: docker/debian.dockerimage docker/deployenv.dockerimage
+
+%.dockerimage: %.docker
+	$(eval IMG=$(DOCKER_PREFIX)$(*F))
+	docker pull $(IMG):latest || true
+	docker build -t $(IMG):latest -t $(IMG):$(VERSION) -f $< .
+	docker push $(IMG):$(VERSION) || true
+	docker push $(IMG):latest || true
+
+docker: $(obj)
 
 devenv:
 	$(PYTHON_SYS) -m pip install --user pipx
 	pipx install poetry
 	poetry install
-
-build:
-	poetry build
 
 test:
 	poetry run python test/mkdocker.py
