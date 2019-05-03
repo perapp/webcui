@@ -17,4 +17,4 @@ build:
 
 test:
    stage: test
-   script: docker run "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" make test
+   script: docker run -e DOCKER_HOST=http://docker:2375 "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" make test
