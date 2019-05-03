@@ -45,3 +45,67 @@ def build_docker_image(project, logger, dockerfile):
         except KeyError:
             pass
 
+
+#####################
+
+import click
+from pathlib import Path
+from shutil import rmtree
+import docker
+
+home = Path(__file__).parent
+
+@click.group()
+def cli():
+    pass
+
+@cli.command()
+@click.option("--all", is_flag=True, default=False)
+def clean(all):
+    rmtree(home/"dist")
+    for docker.from_env().images.list("webcui"):
+        
+    if all:
+        if os.get("VIRTUAL_ENV"):
+            rmtree(os.get("VIRTUAL_ENV"))
+
+logger = logging.getLogger(__name__)
+
+@click.group()
+def cli():
+    logging.basicConfig()
+    logger.setLevel(logging.INFO)
+
+@cli.command()
+def build():
+    pass
+
+@cli.command()
+def test():
+    pass
+
+@cli.command()
+@click.option("--all", is_flag=True, default=False)
+def clean(all):
+    clean_dirs(home/"dist")
+    clean_docker_images("webcui/*")
+
+    if all:
+        clean_dirs(os.get("VIRTUAL_ENV"))
+
+def clean_dirs(pattern):
+    if pattern:
+        for x in glob.glob(str(pattern)):
+            logger.info(f"rm {x}")
+            rmtree(dir_to_clean)
+
+def clean_docker_images(pattern):
+    for image in docker.from_env().images.list():
+        for tag in image.tags:
+            if fnmatch.fnmatch(tag, pattern):
+                logger.info(f"docker rmi {image}")
+                break
+
+if __name__ == "__main__":
+    cli()
+

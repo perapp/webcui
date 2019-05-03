@@ -5,51 +5,29 @@ else
 	PYTHON_SYS = python3
 	PYTHON     = bin/python
 endif
+PYTHON = poetry run python
 
 .PHONY:	build docker test
 
-build: foo build/env/build docker
-	$</$(PYTHON) python/setup.py sdist --dist-dir build/dist
-	$</$(PYTHON) python/setup.py bdist_wheel --dist-dir build/dist
+devenv:
+	$(PYTHON_SYS) -m pip install --user pipx
+	pipx install poetry
+	poetry install
 
-foo:
-	python3 -c "import docker; print(docker.from_env().containers.run('hello-world').decode('utf-8'))"
+build:
+	poetry build
 
-docker: build/docker/debian.log build/docker/deployenv.log
+test:
+	poetry run python -m pytest test
 
-build/docker/debian.log: docker/debian.docker
-	mkdir -p build/docker
-	docker build -t perapp/webcui_debian -f docker/debian.docker . && touch $@
+publish: build
+	poetry publish
 
-build/docker/deployenv.log: build/docker/debian.log docker/deployenv.docker
-	mkdir -p build/docker
-	docker build -t perapp/webcui_deployenv -f docker/deployenv.docker . && touch $@
-
-test: build/env/test
-	$</$(PYTHON) -m pytest test
-
-run: build/testenv
-	$</$(PYTHON) test/app/test_basic_app.py
-
-test_deploy: build/env/testpypi build
-	$</$(PYTHON) -m twine upload --repository-url https://test.pypi.org/legacy/ build/dist/*
-	$</$(PYTHON) -m pip install --index-url https://test.pypi.org/simple/ webcui
-	$</$(PYTHON) -m pytest test
-
-deploy: build/env/build build
-	$</$(PYTHON) -m twine upload build/dist/*
-
-build/env/build:
-	$(PYTHON_SYS) python/buildtools/buildenv.py $(@F)
-build/env/test:
-	$(PYTHON_SYS) python/buildtools/buildenv.py $(@F)
-build/env/testpypi:
-	$(PYTHON_SYS) python/buildtools/buildenv.py $(@F)
-build/env/pypi:
-	$(PYTHON_SYS) python/buildtools/buildenv.py $(@F)
+shell:
+	poetry shell
 
 clean:
-	rm -rf build
-	rm -rf python/*.egg-info
-	docker images -q perapp/webcui_deployenv | xargs -r docker rmi
-	docker images -q perapp/webcui_debian | xargs -r docker rmi
+	$(PYTHON) buildtools/clean.py --all
+
+xclean: clean
+	$(PYTHON) buildtools/clean.py --all

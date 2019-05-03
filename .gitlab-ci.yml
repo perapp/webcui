@@ -1,23 +1,17 @@
-image: python:3.6
+image: docker
 
 services:
   - docker:dind
 
-variables:
-  DOCKER_HOST: http://docker:2375
-
 before_script:
-  - pip install pipenv
+  - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
 
 build:
    stage: build
-   script: bin/make.py package
+   script:
+    - docker build --pull -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
+    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
 
 test:
    stage: test
-   script: bin/make.py verify
-
-cache:
-  paths:
-    - $HOME/.local/share/virtualenvs/
-    - /root/.local/share/virtualenvs/
+   script: docker run "$CI_REGISTRY_IMAGE:$DIST-$CI_COMMIT_REF_SLUG" make test
