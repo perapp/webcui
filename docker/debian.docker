@@ -4,9 +4,9 @@ FROM debian
 
 RUN apt-get update
 RUN apt-get -y install sudo openssh-server
+
 RUN adduser --disabled-password --gecos "" webcui
 RUN echo webcui:webcui | chpasswd
-
 RUN adduser webcui sudo
 RUN echo 'webcui ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
