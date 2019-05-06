@@ -7,6 +7,7 @@ import tarfile
 import tempfile
 import string
 import os
+import textwrap
 
 class App(object):
     def __init__(self, cmd, env=os.environ):
@@ -81,7 +82,7 @@ class App(object):
             ar.add(self.project_base_dir, root/"app"/self.name)
             ar.add(docker_file, root/"Dockerfile")
             ar.add(webcui_dir, root/"lib"/"webcui")
-            ar.add(webcui_dir.parent/"python"/"requirements.txt", root/"lib"/"webcui"/"requirements.txt")  # TODO: fix path to req.txt
+            ar.add(webcui_dir.parent/"requirements.txt", root/"lib"/"webcui"/"requirements.txt")  # TODO: fix path to req.txt
             ar.close()
         return build_file
 
@@ -89,19 +90,20 @@ class App(object):
     def docker_file(self):
         python_version = "latest"
         rel_app_file = self.app_file_path.relative_to(self.project_base_dir)
-        return f"""
+        return textwrap.dedent(f"""
         FROM python:{self.python_version}
 
-        ADD lib /opt/lib
+        ADD lib/webcui/requirements.txt /opt/lib/webcui/
         RUN python -m pip install -r /opt/lib/webcui/requirements.txt
+        ADD lib /opt/lib
 
         ADD app /opt/app
         # RUN python -m pip install -r /opt/app/{self.name}/requirements.txt
 
         ENV PYTHONPATH /opt/app/{self.name}:/opt/lib
-        EXPOSE 8080
+        EXPOSE 80
         CMD python /opt/app/{self.name}/{rel_app_file} run
-        """
+        """)
 
 def expand_vars(env:dict, xs):
     if isinstance(xs, dict):

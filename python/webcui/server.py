@@ -57,7 +57,7 @@ class Server(object):
 
     def run(self):
         self.api.run(address="0.0.0.0",
-                     port=8080)
+                     port=80)
 
     @property
     def requests(self):

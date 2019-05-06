@@ -8,6 +8,7 @@ import selectors
 import sys
 import os
 from pathlib import Path, PosixPath
+import datetime
 
 class Deployer(object):
 
@@ -15,6 +16,7 @@ class Deployer(object):
         self.app = app
         self.env_name = env_name
         self.build_dir = tempfile.TemporaryDirectory()
+        self.deployment_id = datetime.datetime.now().isoformat().replace(":",".")  # : not allowed as docker tag name
 
     def deploy(self):
         build = self.app.build()
@@ -25,8 +27,8 @@ class Deployer(object):
 
     def restart_env(self, image):
         with self.connect() as ssh:
-            # TODO: stop running env
-            ssh.run(f'docker run --rm -d "{image}"')
+            ssh.run(f'docker ps -f label=webcui -f label={self.env_name} -q | xargs -r docker stop')
+            ssh.run(f'docker run --rm -d -p 8080:80 -l webcui -l {self.env_name} "{image}"')
 
     def upload_build(self, build_path):
         with self.connect() as ssh:
@@ -41,9 +43,10 @@ class Deployer(object):
             tarx_dir = remote_build_path.with_suffix(".d")
             ssh.run(f'mkdir -p "{tarx_dir}"')
             ssh.run(f'tar -C "{tarx_dir}" -xaf "{remote_build_path}"')
-            tag = self.app.name
-            ssh.run(f'docker build -t "{tag}" -f "{tarx_dir}/Dockerfile" "{tarx_dir}"')  # TODO: Tag with version
-            return tag
+            tagv = f"{self.app.name}:{self.deployment_id}"
+            tagl = f"{self.app.name}:latest"
+            ssh.run(f'docker build -t "{tagv}" -t "{tagl}" -f "{tarx_dir}/Dockerfile" --cache-from "{tagl}" "{tarx_dir}"')  # TODO: Tag with version
+            return tagv
 
     def validate_docker(self):
         with self.connect() as ssh:
@@ -72,11 +75,13 @@ class Deployer(object):
         ssh = MySSHClient()
         ssh.load_system_host_keys()
         ssh.set_missing_host_key_policy(AutoAddPolicy)
+        default_keyfile = str(Path.home()/".ssh"/"id_rsa_webcui")
         print("CONNECT", self.env_conf["host"], self.env_conf.get("ssh_port", "22"))
         ssh.connect(self.env_conf["host"],
                     port=int(self.env_conf.get("ssh_port", "22")),
                     username=self.env_conf.get("username"),
-                    password=self.env_conf.get("password"))
+                    password=self.env_conf.get("password"),
+                    key_filename=default_keyfile)
         return ssh
 
     @property

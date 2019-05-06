@@ -12,7 +12,7 @@ def deploy_server():
     """
     prefix = os.environ.get("DOCKER_PREFIX", "")
     image = f"{prefix}deployenv"
-    print(image)
+    print("IMAGE", image)
     client = docker.from_env()
     container = client.containers.run(image, 
                                       detach=True,

@@ -3,6 +3,9 @@ name = "webcui"
 version = "0.1.2"
 description = "A web command user interface"
 authors = ["Per Appelgren <per@appgren.se>"]
+packages = [
+    { include = "webcui", from = "python" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.6"

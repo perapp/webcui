@@ -6,10 +6,10 @@ else
 	PYTHON     = bin/python
 endif
 ifeq (${VERSION},)
-	VERSION = $(shell date --utc -Iseconds | sed 's/://g; s/+.*//')
+	export VERSION = $(shell date --utc -Iseconds | sed 's/://g; s/+.*//')
 endif
 ifeq (${DOCKER_PREFIX},)
-	DOCKER_PREFIX = webcui/
+	export DOCKER_PREFIX = local/webcui/
 endif
 
 PYTHON = poetry run python
@@ -36,7 +36,6 @@ devenv:
 	poetry install
 
 test:
-	# poetry run python test/mkdocker.py
 	poetry run python -m pytest -s --tb=native test
 
 publish: build

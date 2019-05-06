@@ -25,6 +25,8 @@ def test_deploy(deploy_server):
 
         conf = toml.load(app_dir/"webcui.conf")
         conf["environments"]["prod"]["host"] = ssh_host
+        conf["environments"]["prod"]["user"] = "$USER"
+        conf["environments"]["prod"]["password"] = "$PASSWORD"
         conf["environments"]["prod"]["ssh_port"] = ssh_port
         with (app_dir/"webcui.conf").open(mode="w") as fileobj:
             toml.dump(conf, fileobj)
@@ -34,8 +36,7 @@ def test_deploy(deploy_server):
         cmd = get_cmd_from_file(app_dir/"cmd.py", "cmd")
         webcui.run(cmd,
                ["deploy"],
-               env={"HOST": ssh_host,
-                    "USER": "webcui",
+               env={"USER": "webcui",
                     "PASSWORD": "webcui"},
                standalone_mode=False)
 
