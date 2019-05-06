@@ -2,6 +2,8 @@
 # The image has the prerequisites for deploy: ssh server and docker.
 FROM ubuntu
 
+LABEL org.pypi.webcui=""
+
 RUN apt-get update
 RUN apt-get -y install sudo openssh-server docker.io
 

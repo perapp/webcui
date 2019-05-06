@@ -93,6 +93,8 @@ class App(object):
         return textwrap.dedent(f"""
         FROM python:{self.python_version}
 
+        LABEL org.pypi.webcui=""
+
         ADD lib/webcui/requirements.txt /opt/lib/webcui/
         RUN python -m pip install -r /opt/lib/webcui/requirements.txt
         ADD lib /opt/lib

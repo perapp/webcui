@@ -27,8 +27,8 @@ class Deployer(object):
 
     def restart_env(self, image):
         with self.connect() as ssh:
-            ssh.run(f'docker ps -f label=webcui -f label={self.env_name} -q | xargs -r docker stop')
-            ssh.run(f'docker run --rm -d -p 8080:80 -l webcui -l {self.env_name} "{image}"')
+            ssh.run(f'docker ps -f label=org.pypi.webcui -f label=env={self.env_name} -q | xargs -r docker stop')
+            ssh.run(f'docker run --rm -d -p 8080:80 -l env={self.env_name} "{image}"')
 
     def upload_build(self, build_path):
         with self.connect() as ssh:

@@ -1,12 +1,20 @@
 FROM python:latest
 
+LABEL org.pypi.webcui=""
+
 ENV PIP_DEFAULT_TIMEOUT 60
 RUN pip install poetry
-RUN mkdir /project
-WORKDIR /project
+RUN mkdir /webcui
+WORKDIR /webcui
 
-ADD pyproject.toml poetry.lock /project/
+# Create empty webcui package an install dependencies.
+# Allow reuse of Docker cache if no dependencies where updated
+RUN mkdir -p python/webcui
+RUN touch python/webcui/__init__.py
+ADD pyproject.toml poetry.lock ./
 RUN poetry install
 
-ADD . /project
+ADD . .
+RUN poetry install
+
 CMD poetry run python
