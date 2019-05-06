@@ -1,15 +1,15 @@
 # A Debian environment used to test the "deploy" feature.
 # The image has the prerequisites for deploy: ssh server and docker.
-FROM ubuntu
+FROM alpine
 
 LABEL org.pypi.webcui=""
 
-RUN apt-get update
-RUN apt-get -y install sudo openssh-server docker.io
+RUN apk add openrc sudo openssh docker
 
-RUN adduser --disabled-password --gecos "" webcui
+RUN adduser -D webcui
 RUN echo webcui:webcui | chpasswd
-RUN adduser webcui sudo
+RUN addgroup webcui wheel
+RUN addgroup webcui docker
 RUN echo 'webcui ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # Always sudo docker in order for webcui user to run docker
@@ -17,7 +17,5 @@ RUN echo '#!/bin/bash' > /usr/local/bin/docker
 RUN echo 'sudo /usr/bin/docker "$@"' >> /usr/local/bin/docker
 RUN chmod +x /usr/local/bin/docker
 
-RUN adduser webcui docker
-
 EXPOSE 22
-CMD service ssh start && tail -f /dev/null
+CMD rc-service sshd start && tail -f /dev/null

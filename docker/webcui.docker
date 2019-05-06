@@ -2,6 +2,8 @@ FROM python:3-alpine
 
 LABEL org.pypi.webcui=""
 
+RUN apk add gcc musl-dev
+
 ENV PIP_DEFAULT_TIMEOUT 60
 RUN pip install poetry
 RUN mkdir /webcui
@@ -12,6 +14,8 @@ WORKDIR /webcui
 RUN mkdir -p python/webcui
 RUN touch python/webcui/__init__.py
 ADD pyproject.toml poetry.lock ./
+
+RUN apk add libffi-dev make
 RUN poetry install
 
 ADD . .
