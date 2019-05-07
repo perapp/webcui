@@ -75,13 +75,14 @@ class Deployer(object):
         ssh = MySSHClient()
         ssh.load_system_host_keys()
         ssh.set_missing_host_key_policy(AutoAddPolicy)
-        default_keyfile = str(Path.home()/".ssh"/"id_rsa_webcui")
+        default_keyfile = Path.home()/".ssh"/"id_rsa_webcui"
+
         print("CONNECT", self.env_conf["host"], self.env_conf.get("ssh_port", "22"))
         ssh.connect(self.env_conf["host"],
                     port=int(self.env_conf.get("ssh_port", "22")),
                     username=self.env_conf.get("username"),
                     password=self.env_conf.get("password"),
-                    key_filename=default_keyfile)
+                    key_filename=default_keyfile.exists() and str(default_keyfile) or None)
         return ssh
 
     @property
