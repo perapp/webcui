@@ -19,7 +19,7 @@ PYTHON  := poetry run python
 build:
 	poetry build
 
-docker: docker/debian.dockerimage docker/deployenv.dockerimage docker/webcui.dockerimage
+docker: docker/deployenv.dockerimage docker/webcui.dockerimage
 
 %.dockerimage: %.docker
 	$(eval IMG=$(DOCKER_PREFIX)$(*F))
