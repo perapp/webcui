@@ -4,7 +4,7 @@ FROM alpine
 
 LABEL org.pypi.webcui=""
 
-RUN apk add openrc sudo openssh docker
+RUN apk add openrc sudo openssh docker tar
 RUN ssh-keygen -A
 
 RUN adduser -D webcui
@@ -14,10 +14,9 @@ RUN addgroup webcui docker
 RUN echo 'webcui ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # Always sudo docker in order for webcui user to run docker
-RUN echo '#!/bin/sh' > /usr/local/bin/docker
-RUN echo 'sudo /usr/bin/docker "$@"' >> /usr/local/bin/docker
-RUN chmod +x /usr/local/bin/docker
-RUN echo 'export PATH=/usr/local/bin:$PATH' >> /etc/profile
+RUN echo '#!/bin/sh' > /bin/docker
+RUN echo 'sudo /usr/bin/docker "$@"' >> /bin/docker
+RUN chmod +x /bin/docker
 
 EXPOSE 22
 CMD /usr/sbin/sshd && tail -f /dev/null
