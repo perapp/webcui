@@ -2,7 +2,7 @@ FROM python:3-slim
 
 LABEL org.pypi.webcui=""
 
-RUN apt-get -y update && apt-get -y install gcc git
+RUN apt-get -y update && apt-get -y install gcc git make
 
 ENV PIP_DEFAULT_TIMEOUT 60
 RUN pip install poetry
