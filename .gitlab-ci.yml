@@ -14,11 +14,6 @@ build:webcui:
   variables:
     IMAGE: webcui
 
-build:debian:
-  extends: .build_docker_image
-  variables:
-    IMAGE: debian
-
 build:deployenv:
   extends: .build_docker_image
   variables:

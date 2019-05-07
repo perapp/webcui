@@ -48,8 +48,13 @@ clean:
 	rm -rf dist
 	find . -name webcui.egg-info | xargs rm -rf
 	find . -name __pycache__ | xargs rm -rf
-	docker ps -f label=org.pypi.webcui -qa | xargs -r docker kill
+	docker ps -f label=org.pypi.webcui -q | xargs -r docker kill
 	docker ps -f label=org.pypi.webcui -qa | xargs -r docker rm
 
 xclean: clean
 	docker images -qa $(DOCKER_PREFIX)\* | xargs -r docker rmi -f
+
+dockerclean:
+	docker ps -q | xargs -r docker kill
+	docker ps -qa | xargs -r docker rm
+	docker images -qa | xargs -r docker rmi -f
