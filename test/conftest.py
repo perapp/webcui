@@ -18,7 +18,7 @@ def deploy_server():
                                       detach=True,
                                       remove=True,
                                       publish_all_ports=True,
-                                      labels=["webcui", "test"],
+                                      labels=["test"],
                                       mounts=[Mount("/var/run/docker.sock",
                                                     "/var/run/docker.sock",
                                                     type="bind")],
