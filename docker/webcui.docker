@@ -1,8 +1,8 @@
-FROM python:3-alpine
+FROM python:3-slim
 
 LABEL org.pypi.webcui=""
 
-RUN apk add gcc musl-dev
+RUN apt-get -y update && apt-get -y install gcc git
 
 ENV PIP_DEFAULT_TIMEOUT 60
 RUN pip install poetry
@@ -15,7 +15,6 @@ RUN mkdir -p python/webcui
 RUN touch python/webcui/__init__.py
 ADD pyproject.toml poetry.lock ./
 
-RUN apk add libffi-dev make
 RUN poetry install
 
 ADD . .
